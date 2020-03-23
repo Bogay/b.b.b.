@@ -7,28 +7,25 @@ public class Turret : MonoBehaviour
     [SerializeField]
     private BallProperty property = null; //球的屬性
     [SerializeField]
-    private CountDown countDown = null;  //遊戲倒數計時器
-
-                                //SerializeField讓我們可以在unity介面上替這個變數指派值
-    [SerializeField,Range(5,25)]//Range讓我們們可以在unity介面上用滑桿調整數值
-    private float speed = 10;   //砲台左右移動的速度
-
-    private Camera cam;         //主攝像機
-    private Vector3 mousePos;   //紀錄滑鼠的世界座標
-    private Vector3 direction;  //紀錄砲台應指向的方向向量
-    private float fireTime;     //紀錄砲台發射週期
-    private float timer;        //發射的冷卻
-    public static float angle = 90;     //紀錄砲台的旋轉,設static以方便球取得目前的角度
-
-    [SerializeField]            
-    private Transform muzzle = null;    //發射的位置(槍口)
-    [SerializeField]
-    private GameObject ball = null;     //拿來發射的球
+    private CountDown countDown = null; //遊戲倒數計時器
+    //SerializeField讓我們可以在unity介面上替這個變數指派值
+    [SerializeField, Range(5, 25)] //Range讓我們們可以在unity介面上用滑桿調整數值
+    private float speed = 10; //砲台左右移動的速度
+    private Camera cam; //主攝像機
+    private Vector3 mousePos; //紀錄滑鼠的世界座標
+    private Vector3 direction; //紀錄砲台應指向的方向向量
+    private float fireTime; //紀錄砲台發射週期
+    public static float angle = 90; //紀錄砲台的旋轉,設static以方便球取得目前的角度
 
     [SerializeField]
-    private LayerMask trajectoryLayer;  //彈道預測線判斷層
-    [SerializeField,Range(5,30)]
-    private float trajectoryLength = 15;//彈道預測線長度
+    private Transform muzzle = null; //發射的位置(槍口)
+    [SerializeField]
+    private GameObject ball = null; //拿來發射的球
+
+    [SerializeField]
+    private LayerMask trajectoryLayer; //彈道預測線判斷層
+    [SerializeField, Range(5, 30)]
+    private float trajectoryLength = 15; //彈道預測線長度
     private LineRenderer lr; //線渲染器(用來當彈道預測線)
 
     // Start is called before the first frame update
@@ -36,18 +33,18 @@ public class Turret : MonoBehaviour
     {
         cam = Camera.main; //獲取主攝像機
         lr = GetComponent<LineRenderer>(); //獲取線渲染器
-        timer = 0; //冷卻歸零
-        if (property != null)
+        if(property != null)
         {
-            //球屬性初始化
             //週期 = 頻率的倒數
+            this.fireTime = 1 / this.property.Firerate;
         }
-        fireTime = 0.1f; //這行只是先給發射週期一個預設值，之後會刪除
-        if (countDown != null) //如果遊戲倒數計時器不是null
+        if(countDown != null) //如果遊戲倒數計時器不是null
         {
             //向OnCountDownComplete註冊StartUp函式
             //讓此物體不呼叫Update/Fixed Update...等等
         }
+        // shooting!
+        StartCoroutine(shoot());
     }
 
     // Update is called once per frame
@@ -59,22 +56,23 @@ public class Turret : MonoBehaviour
         CalculateRotation();
         /* 計算彈道 */
         ForecastTrajectory();
+    }
 
-        /*發射砲彈*/
-        timer -= Time.fixedDeltaTime; //計算新的冷卻時間
-        if(timer <= 0) //如果冷卻結束
+    IEnumerator shoot()
+    {
+        while(true)
         {
             Instantiate(ball, muzzle.position, Quaternion.identity); //在槍口位置生成球
-            timer = fireTime; //進入冷卻
+            yield return new WaitForSeconds(this.fireTime);
         }
     }
 
     void CalculatePosition() //社課教學不會修改到此函式
     {
         Vector2 pos = transform.position; //得到目前砲台的位置
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if(Input.GetKey(KeyCode.LeftArrow))
             pos += new Vector2(-speed * Time.fixedDeltaTime, 0); //如果有按左方向鍵，往左移
-        if (Input.GetKey(KeyCode.RightArrow))
+        if(Input.GetKey(KeyCode.RightArrow))
             pos += new Vector2(speed * Time.fixedDeltaTime, 0); //如果有按左方向鍵，往右移
         pos = new Vector2(Mathf.Clamp(pos.x, -12, 12), pos.y); //確保得到的新位置不會壞掉(例如超出邊界)
         transform.position = pos; //把算出來的位置套用到砲台上
@@ -97,11 +95,13 @@ public class Turret : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Buff")) //如果碰到的東西是Buff的話
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Buff")) //如果碰到的東西是Buff的話
         {
             //修改球的屬性
+            this.property.SetValue(collision.GetComponent<BuffCarrier>().buff);
             //更新發射頻率
-        }   
+            this.fireTime = 1 / this.property.Firerate;
+        }
     }
 
     void StartUp()
