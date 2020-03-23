@@ -4673,7 +4673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e259b46d93eb16f4f8b8b8ebcf22cc00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  property: {fileID: 11400000, guid: 5a6e32ac054bb1c4483bff282190b158, type: 2}
+  property: {fileID: 11400000, guid: 0f33e244ede267f438a12fc493b7e5bb, type: 2}
   countDown: {fileID: 1919322462}
   speed: 15
   muzzle: {fileID: 1016914507}
