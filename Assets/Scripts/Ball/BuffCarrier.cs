@@ -11,18 +11,20 @@ public class BuffCarrier : MonoBehaviour
 
     private void FixedUpdate() //社課教學不會修改到此函式
     {
-        transform.position += new Vector3(0, -1, 0) * fallSpeed * Time.fixedDeltaTime; //根據下落速度修改位置
-        if (transform.position.y < -10) //如果y軸的位置小於-10(可以想成落到螢幕之下)
+        transform.position += Vector3.down * fallSpeed * Time.fixedDeltaTime; //根據下落速度修改位置
+        if(transform.position.y < -10) //如果y軸的位置小於-10(可以想成落到螢幕之下)
             Destroy(gameObject); //銷毀此物件
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Turret")) //如果撞到的東西是Turret
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Turret")) //如果撞到的東西是Turret
         {
             //播放名為"PowerUp"的音效
             //生成文字
+            Instantiate(this.text, transform.position + Vector3.down * 6, Quaternion.identity);
             //銷毀此物件
+            Destroy(gameObject);
         }
     }
 }
