@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46dd5c74361d5a4586ca5734e3864ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buff: {fileID: 11400000, guid: a91e9edfaeae4c543b07c685d8e8d48c, type: 2}
+  buff: {fileID: 11400000, guid: 4104d2e502c386448907d8b936942e95, type: 2}
   text: {fileID: 3930739414744591784, guid: c81747293af96e6439ca1923f8ea7f38, type: 3}
 --- !u!198 &3482998702019894508
 ParticleSystem:
