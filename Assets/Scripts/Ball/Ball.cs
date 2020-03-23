@@ -20,11 +20,12 @@ public class Ball : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>(); //從遊戲物件上獲得2D剛體
         float angle = Turret.angle * Mathf.Deg2Rad; //從砲台上獲得發射角度，角度要換成弧度制
-        if (property != null)
+        // update ball property from SO
+        if(property != null)
         {
-            //從property上獲得速度
-            //從property上獲得傷害值
-            //從property上獲得反彈次數
+            this.speed = this.property.Speed;
+            this.damage = this.property.Damage;
+            this.reflect = this.property.Reflect;
         }
         rb.velocity = speed * new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)); //套用速度
     }
@@ -32,14 +33,14 @@ public class Ball : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //播放名為"Hit"的音效
-        if (ballHit != null)
+        if(ballHit != null)
         {
             //生成撞擊特效
         }
-        if ((1 << collision.gameObject.layer & excludeRfLayer) == 0) //如果撞到的物體不是磚塊或磚塊玩家
+        if((1 << collision.gameObject.layer & excludeRfLayer) == 0) //如果撞到的物體不是磚塊或磚塊玩家
         {
             reflect--; //反彈次數減一
-            if (reflect <= 0)
+            if(reflect <= 0)
                 Destroy(gameObject); //如果反彈次數低於零，銷毀此物件
         }
     }
@@ -50,7 +51,7 @@ public class Ball : MonoBehaviour
     }
 
     public int GetDamage() //社課教學不會修改到此函式
-    { 
+    {
         return damage; //回傳傷害值
     }
 }
