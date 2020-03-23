@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class Brick : MonoBehaviour
 {
@@ -20,30 +20,31 @@ public class Brick : MonoBehaviour
 
     private void Start() //社課教學不會修改到此函式
     {
-        float rand = Random.Range(0f, 1f); 
+        float rand = Random.Range(0f, 1f);
         seed = Mathf.FloorToInt(rand * 200); //生成隨機種子碼
-        if (seed < buffs.Length)
+        if(seed < buffs.Length)
             buffToSpawn = buffs[seed]; //根據種子碼決定要生成的buff
         hpText.text = hp.ToString(); //顯示血量
     }
 
     private void Update() //社課教學不會修改到此函式
     {
-        if (transform.position.y < -10)
+        if(transform.position.y < -10)
             Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ball")) //如果撞到的東西是球
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Ball")) //如果撞到的東西是球
         {
             hp -= collision.gameObject.GetComponent<Ball>().GetDamage(); //損血
             hpText.text = hp.ToString(); //顯示新的血量
-        }          
-        if (hp <= 0) //如果血量歸零
+        }
+        if(hp <= 0) //如果血量歸零
         {
-            if(buffToSpawn != null)
             //生成buff
+            if(buffToSpawn != null)
+                Instantiate(this.buffToSpawn, transform.position, Quaternion.identity);
             /*此段以下負責生成粒子特效並播放*/
             if(destroy != null)
             {
