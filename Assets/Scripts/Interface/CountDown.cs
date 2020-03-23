@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class CountDown : MonoBehaviour
@@ -18,8 +18,12 @@ public class CountDown : MonoBehaviour
 
     public IEnumerator StartCountDown()
     {
-        //等待0.25秒
+        string[] subtitles;
+        AudioClip[] sounds;
+        float[] waits;
 
+        //等待0.25秒
+        yield return new WaitForSeconds(0.25f);
         //放出"3..."這個字幕
         //播放名為"3"的音效
 
