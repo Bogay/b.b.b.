@@ -91,8 +91,34 @@ public class Turret : MonoBehaviour
 
     void ForecastTrajectory()
     {
-        /*實作待補*/
-        /*如果社課時間不足可能會略過此函式*/
+        List<Vector3> reflects = new List<Vector3>();
+        float remainLength = this.trajectoryLength;
+        float reflectAngle = Turret.angle * Mathf.Deg2Rad;
+        Vector3 origin = this.muzzle.position;
+        Vector3 reflectDir = new Vector2(Mathf.Cos(reflectAngle), Mathf.Sin(reflectAngle));
+        // calculate reflection points
+        reflects.Add(origin);
+        int reflectCount = 0;
+        while(remainLength > 0 && reflectCount < 10)
+        {
+            RaycastHit2D hit = Physics2D.CircleCast(origin, 0.1f, reflectDir, Mathf.Infinity, this.trajectoryLayer);
+            // no collision or reach length limit
+            if(!hit.collider || hit.distance >= remainLength)
+            {
+                reflects.Add(origin + reflectDir.normalized * remainLength);
+                break;
+            }
+            Debug.Log(hit.collider.name);
+            // add a new reflect point
+            remainLength -= hit.distance;
+            origin = hit.point + hit.normal.normalized * 0.1f;
+            reflects.Add(origin);
+            reflectDir = Vector2.Reflect(reflectDir, hit.normal);
+            reflectCount++;
+        }
+        // draw it
+        this.lr.positionCount = reflects.Count;
+        this.lr.SetPositions(reflects.ToArray());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
