@@ -12,42 +12,29 @@ public class CountDown : MonoBehaviour
 
     private void Start()
     {
-        //時間常數設為零(時間暫停)
-        //開始倒數的coroutine
+        //  時間常數設為零 (時間暫停)
+        Time.timeScale = 0;
+        // 開始倒數的 coroutine
+        StartCoroutine(this.StartCountDown());
     }
 
     public IEnumerator StartCountDown()
     {
-        string[] subtitles;
-        AudioClip[] sounds;
-        float[] waits;
-
-        //等待0.25秒
-        yield return new WaitForSeconds(0.25f);
-        //放出"3..."這個字幕
-        //播放名為"3"的音效
-
-        //等待1秒
-
-        //放出"2..."這個字幕
-        //播放名為"2"的音效
-
-        //等待1秒
-
-        //放出"1..."這個字幕
-        //播放名為"1"的音效
-
-        //等待1秒
-
-        //放出"Go!"這個字幕
-        //播放名為"Go"的音效
-
-        //等待1秒
-
-        //清空倒數字幕
-        //時間常數設回1(正常時間)
-        //播放名為"Scene_1_bgm"的音樂
-        //觸發OnCountDownComplete事件
-        yield break; //加這行只是因為IEnumerator需要至少一個yield才不會出錯，之後會刪掉
+        string[] subtitles = { "3...", "2...", "1...", "Go!", "" };
+        string[] sounds = { "3", "2", "1", "Go", "Scene_1_bgm" };
+        float[] waits = { 0.25f, 1f, 1f, 1f, 1f };
+        for(int i = 0; i < 5; i++)
+        {
+            // wait a moment
+            yield return new WaitForSecondsRealtime(waits[i]);
+            // play SE
+            SceneAudioManager.instance.PlayByName(sounds[i]);
+            // set subtitle
+            this.countDown.text = subtitles[i];
+        }
+        // 時間常數設回 1 (正常時間)
+        Time.timeScale = 1;
+        // 觸發 OnCountDownComplete 事件
+        this.OnCountDownComplete.Invoke();
     }
 }

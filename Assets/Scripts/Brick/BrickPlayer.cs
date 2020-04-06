@@ -61,8 +61,10 @@ public class BrickPlayer : MonoBehaviour
         }
         if(countDown != null) // 如果遊戲倒數計時器不是null
         {
-            // 向OnCountDownComplete事件訂閱StartUp函式
-            // 讓此物體不呼叫Update/Fixed Update...等等
+            // 向 OnCountDownComplete 事件訂閱 StartUp 函式
+            this.countDown.OnCountDownComplete.AddListener(this.StartUp);
+            // 讓此物體不呼叫 Update/Fixed Update... 等等
+            enabled = false;
         }
     }
 
@@ -200,12 +202,13 @@ public class BrickPlayer : MonoBehaviour
 
     void StartUp()
     {
-        // 讓此物體呼叫Update/Fixed Update...等等
+        // 讓此物體呼叫 Update/Fixed Update... 等等
+        enabled = true;
     }
 
     void Cancel()
     {
-        // 讓此物體不呼叫Update/Fixed Update...等等
-        // 移除所有OnDie事件的訂閱者
+        // 讓此物體不呼叫 Update/Fixed Update... 等等
+        // 移除所有 OnDie 事件的訂閱者
     }
 }
