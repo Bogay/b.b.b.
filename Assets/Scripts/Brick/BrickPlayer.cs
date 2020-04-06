@@ -54,10 +54,12 @@ public class BrickPlayer : MonoBehaviour
         hpText.text = hp.ToString(); // 顯示目前血量
         regenTimer = 0; // 設定初始回血計時器
         maxHpTimer = maxHpTime; // 設定增加最大血量的計時器
-        if(line != null) // 如果死亡判定線不是null
+        if(line != null) // 如果死亡判定線不是 null
         {
-            // 向OnPlayerEnter事件訂閱Suicide函式
-            // 向OnBrickEnter事件訂閱Cancel函式
+            // 向 OnPlayerEnter 事件訂閱 Suicide 函式
+            this.line.OnPlayerEnter.AddListener(this.Suicide);
+            // 向 OnBrickEnter 事件訂閱 Cancel 函式 (avoid invoking game end event twice)
+            this.line.OnBrickEnter.AddListener(this.Cancel);
         }
         if(countDown != null) // 如果遊戲倒數計時器不是null
         {
@@ -101,6 +103,12 @@ public class BrickPlayer : MonoBehaviour
             maxHp += 5;
             maxHpTimer = maxHpTime;
         }
+    }
+
+    private void updateHP(int delta)
+    {
+        this.hp += delta;
+        this.hpText.text = $"{this.hp}";
     }
 
     void SpawnBrick()
@@ -186,18 +194,21 @@ public class BrickPlayer : MonoBehaviour
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Ball")) // 如果撞到的東西是球
         {
-            hp -= collision.gameObject.GetComponent<Ball>().GetDamage(); // 損血
-            hpText.text = hp.ToString(); // 顯示新的血量
+            this.updateHP(-collision.gameObject.GetComponent<Ball>().GetDamage());
         }
-        // 如果血量低於零，觸發OnDie事件
+        // 如果血量低於零，觸發 OnDie 事件
+        if(this.hp <= 0)
+            this.OnDie.Invoke();
     }
 
     void Suicide()
     {
         // hp歸零
-        // 顯示新的血量
-        // 讓此物體不呼叫Update/Fixed Update...等等
-        // 觸發OnDie事件
+        this.updateHP(-this.hp);
+        // 讓此物體不呼叫 Update/Fixed Update... 等等
+        enabled = false;
+        // 觸發 OnDie 事件
+        this.OnDie.Invoke();
     }
 
     void StartUp()
@@ -209,6 +220,8 @@ public class BrickPlayer : MonoBehaviour
     void Cancel()
     {
         // 讓此物體不呼叫 Update/Fixed Update... 等等
+        enabled = false;
         // 移除所有 OnDie 事件的訂閱者
+        this.OnDie.RemoveAllListeners();
     }
 }

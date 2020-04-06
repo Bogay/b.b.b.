@@ -13,33 +13,35 @@ public class DeadLine : MonoBehaviour
 
     private void Start()
     {
-        if (player != null)
+        if(this.player != null)
         {
-            //向OnDie事件註冊Cancel函式
+            // 向 OnDie 事件註冊 Cancel 函式
+            this.player.OnDie.AddListener(this.Cancel);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ball"))
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Ball"))
         {
-            if (collision.attachedRigidbody.velocity.y < 0)
-                Destroy(collision.gameObject); //如果撞到的東西是球，而且球是向下跑，則把球消滅
+            if(collision.attachedRigidbody.velocity.y < 0)
+                Destroy(collision.gameObject); // 如果撞到的東西是球，而且球是向下跑，則把球消滅
         }
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Brick"))
+        else if(collision.gameObject.layer == LayerMask.NameToLayer("Brick"))
         {
-            //如果撞到的物體是磚塊，觸發OnBrickEnter事件
+            // 如果撞到的物體是磚塊，觸發 OnBrickEnter 事件
+            this.OnBrickEnter.Invoke();
         }
-
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Brick Player"))
+        else if(collision.gameObject.layer == LayerMask.NameToLayer("Brick Player"))
         {
-            //如果撞到的物體是磚塊玩家，觸發OnPlayerEnter事件
+            // 如果撞到的物體是磚塊玩家，觸發 OnPlayerEnter 事件
+            this.OnPlayerEnter.Invoke();
         }
     }
 
     private void Cancel()
     {
-        //移除所有OnBrickEnter的註冊函式
+        // 移除所有 OnBrickEnter 的註冊函式
+        this.OnBrickEnter.RemoveAllListeners();
     }
 }
