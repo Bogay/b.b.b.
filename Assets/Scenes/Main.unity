@@ -986,7 +986,18 @@ MonoBehaviour:
     m_Bits: 2560
   OnDie:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 806014596}
+        m_MethodName: ShowCanvas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hpText: {fileID: 1645347023}
   brick: {fileID: 2117650617576708560, guid: e472d865ace9a0e46ae0024a47ffa210, type: 3}
   bloomRect: {fileID: 703363588}
@@ -3497,10 +3508,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 806014593}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cf18a2af2f2d6649a6ed6610eb69654, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e97b3e8224fdb94cbdac50e67a57c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 210725831}
 --- !u!1001 &820725142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4681,7 +4691,7 @@ MonoBehaviour:
   trajectoryLayer:
     serializedVersion: 2
     m_Bits: 513
-  trajectoryLength: 25
+  trajectoryLength: 15
 --- !u!4 &1049804962
 Transform:
   m_ObjectHideFlags: 0
@@ -10359,7 +10369,18 @@ MonoBehaviour:
       m_Calls: []
   OnBrickEnter:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2137700350}
+        m_MethodName: ShowCanvas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   player: {fileID: 210725831}
 --- !u!50 &1964752407
 Rigidbody2D:
@@ -10876,7 +10897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2137700347}
   - component: {fileID: 2137700348}
-  - component: {fileID: 2137700349}
+  - component: {fileID: 2137700350}
   m_Layer: 5
   m_Name: AttackerWin
   m_TagString: Untagged
@@ -10921,7 +10942,7 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
---- !u!114 &2137700349
+--- !u!114 &2137700350
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10930,10 +10951,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2137700346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6b794fa64b05794cb083b5a6dac1465, type: 3}
+  m_Script: {fileID: 11500000, guid: 7e97b3e8224fdb94cbdac50e67a57c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  line: {fileID: 1964752406}
 --- !u!1001 &2146227924
 PrefabInstance:
   m_ObjectHideFlags: 0

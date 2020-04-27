@@ -20,7 +20,7 @@ public class BrickPlayer : MonoBehaviour
     [SerializeField]
     private LayerMask placeLayer; // 針對放置磚塊檢查的層遮罩
 
-    [HideInInspector]
+    // [HideInInspector]
     public UnityEvent OnDie = new UnityEvent(); // OnDie事件
     [SerializeField]
     protected TextMeshProUGUI hpText = null; // 顯示血量的文字

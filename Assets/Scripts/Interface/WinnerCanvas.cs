@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class DefenderCanvas : MonoBehaviour
+public class WinnerCanvas : MonoBehaviour
 {
-    [SerializeField]
-    private BrickPlayer player; // 磚塊玩家
     private CanvasGroup group; // UI 畫布的元件管理者
     private bool invoked = false; // 是否已觸發的bool
 
@@ -16,10 +14,9 @@ public class DefenderCanvas : MonoBehaviour
         this.group.alpha = 0; // 把畫布的透明度設成 0 (完全不可見)
         this.group.blocksRaycasts = false; // 讓畫布不會遮擋射線判斷
         this.group.interactable = false; // 讓畫布內的元件無法互動(避免不小心按到按鈕之類的)
-        this.player.OnDie.AddListener(this.ShowCanvas); // 向 player 的 OnDie 事件註冊 ShowCanvas 函式
     }
 
-    void ShowCanvas()
+    public void ShowCanvas()
     {
         // 如果這個函式已經被觸發過了
         // 中斷 (因為這個函式應該只能被觸發一次)

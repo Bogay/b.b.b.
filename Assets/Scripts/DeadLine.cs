@@ -7,7 +7,7 @@ public class DeadLine : MonoBehaviour
 {
     [HideInInspector]
     public UnityEvent OnPlayerEnter = new UnityEvent();
-    [HideInInspector]
+    // [HideInInspector]
     public UnityEvent OnBrickEnter = new UnityEvent();
     public BrickPlayer player = null;
 
