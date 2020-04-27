@@ -43,6 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce82340813b0a274abbdd77616b699c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneClipArray: {fileID: 11400000, guid: 36bc301b51cf960409ff58f8c2a36641, type: 2}
-  musicAmp: 1
-  fxAmp: 1
+  sceneClipArray: {fileID: 11400000, guid: 375cb1ccae0af5544955c3e10be09df0, type: 2}
