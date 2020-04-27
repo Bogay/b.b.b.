@@ -10,9 +10,22 @@ public class Sound
     // 音檔
     public AudioClip clip;
     // 音檔的音量
-    public float volume;
+    [Range(0f, 1f)]
+    public float volume = 0.5f;
     // 音檔的音高
-    public float pitch;
+    [Range(-3f, 3f)]
+    public float pitch = 1;
     // 音檔是否重複播放
     public bool loop;
+
+    public void InitAudioSource(AudioSource audio)
+    {
+        audio.name = this.name;
+        audio.clip = this.clip;
+        audio.volume = this.volume;
+        audio.pitch = this.pitch;
+        audio.loop = this.loop;
+        audio.playOnAwake = false;
+        audio.spatialBlend = 0;
+    }
 }
