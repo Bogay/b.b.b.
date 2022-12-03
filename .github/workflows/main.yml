@@ -39,9 +39,11 @@ jobs:
             Library-
 
       - name: Generate .NET Project Files
-        uses: docker://unityci/editor:ubuntu-${{ env.UNITY_VERSION }}-base-1
-        run: unity -batchmode -nographics -logFile - -executeMethod UnityEditor.SyncVS.SyncSolution -projectPath .
-      
+        uses: docker://unityci/editor:ubuntu-2021.3.11f1-windows-mono-1
+        with:
+          entrypoint: unity-editor
+          args: -batchmode -nographics -logFile - -executeMethod UnityEditor.SyncVS.SyncSolution -projectPath .
+
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
@@ -51,7 +53,7 @@ jobs:
         run: dotnet tools install -g dotnet-format
 
       - name: Lint
-        run: dotnet format 'Assembly-CSharp.csproj' --verify-no-changes --verbosity diagnostic
+        run: dotnet format 'Assembly-CSharp.csproj' --verify-no-changes --verbosity diagnostic --exclude Assets/Demigiant
 
       - name: Build project
         uses: game-ci/unity-builder@v2
