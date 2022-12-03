@@ -10,7 +10,7 @@ public class AudioClipArray : ScriptableObject, IEnumerable<Sound>
     //建立一個 Sound 的陣列
     public Sound[] sounds;
 
-    public Sound this [int i] { get { return this.sounds[i]; } }
+    public Sound this[int i] { get { return this.sounds[i]; } }
     public IEnumerator<Sound> GetEnumerator() { return this.sounds.Cast<Sound>().GetEnumerator(); }
     IEnumerator IEnumerable.GetEnumerator() { return this.GetEnumerator(); }
 }

@@ -13,7 +13,7 @@ public class DeadLine : MonoBehaviour
 
     private void Start()
     {
-        if(this.player != null)
+        if (this.player != null)
         {
             // 向 OnDie 事件註冊 Cancel 函式
             this.player.OnDie.AddListener(this.Cancel);
@@ -22,17 +22,17 @@ public class DeadLine : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ball"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ball"))
         {
-            if(collision.attachedRigidbody.velocity.y < 0)
+            if (collision.attachedRigidbody.velocity.y < 0)
                 Destroy(collision.gameObject); // 如果撞到的東西是球，而且球是向下跑，則把球消滅
         }
-        else if(collision.gameObject.layer == LayerMask.NameToLayer("Brick"))
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Brick"))
         {
             // 如果撞到的物體是磚塊，觸發 OnBrickEnter 事件
             this.OnBrickEnter.Invoke();
         }
-        else if(collision.gameObject.layer == LayerMask.NameToLayer("Brick Player"))
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Brick Player"))
         {
             // 如果撞到的物體是磚塊玩家，觸發 OnPlayerEnter 事件
             this.OnPlayerEnter.Invoke();

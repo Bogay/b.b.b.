@@ -33,12 +33,12 @@ public class Turret : MonoBehaviour
     {
         cam = Camera.main; // 獲取主攝像機
         lr = GetComponent<LineRenderer>(); // 獲取線渲染器
-        if(property != null)
+        if (property != null)
         {
             // 週期 = 頻率的倒數
             this.fireTime = 1 / this.property.Firerate;
         }
-        if(countDown != null) // 如果遊戲倒數計時器不是null
+        if (countDown != null) // 如果遊戲倒數計時器不是null
         {
             // 向OnCountDownComplete註冊StartUp函式
             this.countDown.OnCountDownComplete.AddListener(this.StartUp);
@@ -62,7 +62,7 @@ public class Turret : MonoBehaviour
 
     IEnumerator shoot()
     {
-        while(true)
+        while (true)
         {
             Instantiate(ball, muzzle.position, Quaternion.identity); // 在槍口位置生成球
             yield return new WaitForSeconds(this.fireTime);
@@ -72,9 +72,9 @@ public class Turret : MonoBehaviour
     void CalculatePosition() // 社課教學不會修改到此函式
     {
         Vector2 pos = transform.position; // 得到目前砲台的位置
-        if(Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
             pos += new Vector2(-speed * Time.fixedDeltaTime, 0); // 如果有按左方向鍵，往左移
-        if(Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow))
             pos += new Vector2(speed * Time.fixedDeltaTime, 0); // 如果有按左方向鍵，往右移
         pos = new Vector2(Mathf.Clamp(pos.x, -12, 12), pos.y); // 確保得到的新位置不會壞掉(例如超出邊界)
         transform.position = pos; // 把算出來的位置套用到砲台上
@@ -99,11 +99,11 @@ public class Turret : MonoBehaviour
         // calculate reflection points
         reflects.Add(origin);
         int reflectCount = 0;
-        while(remainLength > 0 && reflectCount < 10)
+        while (remainLength > 0 && reflectCount < 10)
         {
             RaycastHit2D hit = Physics2D.CircleCast(origin, 0.1f, reflectDir, Mathf.Infinity, this.trajectoryLayer);
             // no collision or reach length limit
-            if(!hit.collider || hit.distance >= remainLength)
+            if (!hit.collider || hit.distance >= remainLength)
             {
                 reflects.Add(origin + reflectDir.normalized * remainLength);
                 break;
@@ -123,7 +123,7 @@ public class Turret : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Buff")) // 如果碰到的東西是Buff的話
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Buff")) // 如果碰到的東西是Buff的話
         {
             // 修改球的屬性
             this.property.SetValue(collision.GetComponent<BuffCarrier>().buff);

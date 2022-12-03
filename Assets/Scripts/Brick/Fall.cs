@@ -26,9 +26,9 @@ public class Fall : MonoBehaviour
 
     private void Start()
     {
-        height = (int) Camera.main.orthographicSize; //取得攝像機的視野半高
+        height = (int)Camera.main.orthographicSize; //取得攝像機的視野半高
         seed = Random.Range(0.1f, 100f); //生成一個隨機亂數，讓每次生出來的磚塊有不同的排列組合
-        if(countDown != null) //如果遊戲倒數計時器不是null 
+        if (countDown != null) //如果遊戲倒數計時器不是null 
         {
             //向 OnCountDownComplete 事件訂閱 StartUp 函式
             this.countDown.OnCountDownComplete.AddListener(this.StartUp);
@@ -51,10 +51,10 @@ public class Fall : MonoBehaviour
         speed = 0.25f * Mathf.Log10(Mathf.Max(timer, 1)) + 0.4f;
 
         addHptimer += Time.fixedDeltaTime;
-        if(addHptimer >= addHpTime * (addHp + 1))
+        if (addHptimer >= addHpTime * (addHp + 1))
             addHp++;
 
-        if(transform.position.y < floor)
+        if (transform.position.y < floor)
         {
             SpawnBrick(height - floor);
             floor--;
@@ -64,10 +64,10 @@ public class Fall : MonoBehaviour
     private void SpawnBrick(int y) //社課教學不會修改到此函式
     {
         /*這段函式負責生磚塊的邏輯判斷，有興趣的可以去看補充ppt*/
-        for(int i = 0; i < width; i++)
+        for (int i = 0; i < width; i++)
         {
             float value = Mathf.PerlinNoise(i / 4f + seed, (y - height) / 4f + seed);
-            if(value >= threshold)
+            if (value >= threshold)
             {
                 GameObject go = Instantiate(brick, new Vector3(0, 10000, 0), Quaternion.identity, transform);
                 go.transform.localPosition = new Vector3(-(width / 2) + 0.5f + i, y + 0.5f);

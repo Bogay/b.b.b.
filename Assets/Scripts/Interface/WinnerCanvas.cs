@@ -20,7 +20,7 @@ public class WinnerCanvas : MonoBehaviour
     {
         // 如果這個函式已經被觸發過了
         // 中斷 (因為這個函式應該只能被觸發一次)
-        if(this.invoked) return;
+        if (this.invoked) return;
         // 已觸發的 bool 設成 true
         this.invoked = true;
         // 播放名為 "GameOver" 的音效

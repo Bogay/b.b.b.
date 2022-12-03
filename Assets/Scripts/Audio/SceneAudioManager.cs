@@ -15,7 +15,7 @@ public class SceneAudioManager : MonoBehaviour
     private void Awake()
     {
         // if instance is assigned
-        if(instance)
+        if (instance)
         {
             // 自毀
             Destroy(gameObject);
@@ -25,10 +25,10 @@ public class SceneAudioManager : MonoBehaviour
         instance = this;
         // 讓自己不會因為場景切換被消滅
         DontDestroyOnLoad(gameObject);
-        if(sceneClipArray) // 如果儲存音檔資訊的 list 不是 null
+        if (sceneClipArray) // 如果儲存音檔資訊的 list 不是 null
         {
             // 遍歷這個 list 裡的所有東西
-            foreach(Sound s in sceneClipArray)
+            foreach (Sound s in sceneClipArray)
             {
                 // 新增一個空的 AudioSource
                 AudioSource audio = gameObject.AddComponent<AudioSource>();
@@ -46,7 +46,7 @@ public class SceneAudioManager : MonoBehaviour
 
     private AudioSource requireAudio(string name)
     {
-        if(!this.name2Audio.ContainsKey(name))
+        if (!this.name2Audio.ContainsKey(name))
         {
             Debug.LogError($"Audio source ({name}) not found!");
             return null;

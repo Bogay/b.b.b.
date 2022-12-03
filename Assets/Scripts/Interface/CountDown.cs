@@ -23,7 +23,7 @@ public class CountDown : MonoBehaviour
         string[] subtitles = { "3...", "2...", "1...", "Go!", "" };
         string[] sounds = { "3", "2", "1", "Go", "Scene_1_bgm" };
         float[] waits = { 0.25f, 1f, 1f, 1f, 1f };
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
             // wait a moment
             yield return new WaitForSecondsRealtime(waits[i]);

@@ -54,14 +54,14 @@ public class BrickPlayer : MonoBehaviour
         hpText.text = hp.ToString(); // 顯示目前血量
         regenTimer = 0; // 設定初始回血計時器
         maxHpTimer = maxHpTime; // 設定增加最大血量的計時器
-        if(line != null) // 如果死亡判定線不是 null
+        if (line != null) // 如果死亡判定線不是 null
         {
             // 向 OnPlayerEnter 事件訂閱 Suicide 函式
             this.line.OnPlayerEnter.AddListener(this.Suicide);
             // 向 OnBrickEnter 事件訂閱 Cancel 函式 (avoid invoking game end event twice)
             this.line.OnBrickEnter.AddListener(this.Cancel);
         }
-        if(countDown != null) // 如果遊戲倒數計時器不是null
+        if (countDown != null) // 如果遊戲倒數計時器不是null
         {
             // 向 OnCountDownComplete 事件訂閱 StartUp 函式
             this.countDown.OnCountDownComplete.AddListener(this.StartUp);
@@ -82,7 +82,7 @@ public class BrickPlayer : MonoBehaviour
 
     private void LateUpdate() // 社課教學不會修改到此函式
     {
-        if(fall != null)
+        if (fall != null)
             SpawnBrick(); // 如果磚塊生成帷幕不是null，進入磚塊生成的判斷函式
     }
 
@@ -92,13 +92,13 @@ public class BrickPlayer : MonoBehaviour
         regenTimer -= Time.fixedDeltaTime;
         maxHpTimer -= Time.fixedDeltaTime;
         regenTime = Mathf.Max(0.125f, hp / (maxHp * 2.5f));
-        if(regenTimer <= 0)
+        if (regenTimer <= 0)
         {
             hp = Mathf.Min(hp + 1, maxHp);
             hpText.text = hp.ToString();
             regenTimer = regenTime;
         }
-        if(maxHpTimer <= 0)
+        if (maxHpTimer <= 0)
         {
             maxHp += 5;
             maxHpTimer = maxHpTime;
@@ -124,14 +124,14 @@ public class BrickPlayer : MonoBehaviour
         // 計算生成磚塊的座標
         spawnPos = new Vector2(x + 0.5f, y + 0.5f + error);
         // 確保算出來的座標跟玩家的y軸位置至少相差1
-        if(self.position.y - spawnPos.y <= 0.95f)
+        if (self.position.y - spawnPos.y <= 0.95f)
             spawnPos.y--;
         RaycastHit2D hit = Physics2D.Raycast(spawnPos, Vector2.zero, 0, placeLayer);
         // move bloom rect to spawn position
         this.bloomRect.transform.position = spawnPos;
         // change color by hit info 
         this.bloomRect.color = hit.collider ? Color.red : Color.white;
-        if(Input.GetKeyDown(KeyCode.S) && hp > 10 && hit.collider == null) // 如果滿足這些條件
+        if (Input.GetKeyDown(KeyCode.S) && hp > 10 && hit.collider == null) // 如果滿足這些條件
         {
             // 播放名為 "Place" 的音效
             SceneAudioManager.instance.PlayByName("Place");
@@ -149,18 +149,18 @@ public class BrickPlayer : MonoBehaviour
     void HorizontalMoving() // 社課教學不會修改到此函式
     {
         int dir = 0; // 紀錄方向，只有-1,0,1三種可能。1代表向右、-1代表向左、0不動
-        if(Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
             dir++; // 如果按下D鍵，dir加1
-        if(Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
             dir--; // 如果按下A鍵，dir減1
         rb.AddForce(new Vector2(75 * rb.mass * dir, 0)); // 根據dir的數值施力
-        if(dir == 0)
+        if (dir == 0)
             rb.velocity = new Vector2(0.5f * rb.velocity.x, rb.velocity.y); // 如果dir為0，讓水平移動的速度慢慢減緩
     }
 
     void Jump()
     {
-        if(Input.GetKeyDown(KeyCode.W) && canJump) // 如果按下W鍵而且此時玩家可以跳躍
+        if (Input.GetKeyDown(KeyCode.W) && canJump) // 如果按下W鍵而且此時玩家可以跳躍
         {
             // 播放名為"Jump"的音效
             rb.velocity = new Vector2(rb.velocity.x, JumpForce); // 讓玩家跳起來
@@ -171,7 +171,7 @@ public class BrickPlayer : MonoBehaviour
     void JumpGravity(Vector2 velocity) // 社課教學不會修改到此函式
     {
         /*這邊的邏輯簡單來說就是實現"按著跳躍鍵不放會跳得比較高"*/
-        if(velocity.y > 0 && Input.GetKey(KeyCode.W)) // 如果按著W鍵而且此時玩家Y軸速度大於零
+        if (velocity.y > 0 && Input.GetKey(KeyCode.W)) // 如果按著W鍵而且此時玩家Y軸速度大於零
             rb.gravityScale = lowGravity; // 修改玩家的重力常數成較低的數值
         else
             rb.gravityScale = fallGravity; // 修改玩家的重力常數成較高的數值
@@ -192,12 +192,12 @@ public class BrickPlayer : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ball")) // 如果撞到的東西是球
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ball")) // 如果撞到的東西是球
         {
             this.updateHP(-collision.gameObject.GetComponent<Ball>().GetDamage());
         }
         // 如果血量低於零，觸發 OnDie 事件
-        if(this.hp <= 0)
+        if (this.hp <= 0)
             this.OnDie.Invoke();
     }
 
