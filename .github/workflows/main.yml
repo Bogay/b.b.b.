@@ -45,8 +45,8 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          entrypoint: unity-editor
-          args: -batchmode -nographics -logFile - -executeMethod UnityEditor.SyncVS.SyncSolution -projectPath .
+          entrypoint: bash
+          args: ./scripts/before_script.sh && ./scripts/gen_proj.sh
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
