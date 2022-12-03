@@ -3,6 +3,10 @@ name: CI
 
 on: workflow_dispatch
 
+env:
+  UNITY_VERSION: 2021.3.11f1
+  DOTNET_VERSION: 6.x
+
 jobs:
   build:
     name: Build my project ✨
@@ -36,6 +40,21 @@ jobs:
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
           restore-keys: |
             Library-
+
+      - name: Generate .NET Project Files
+        uses: docker://unityci/editor:ubuntu-${{ env.UNITY_VERSION }}-base-1
+        run: unity -batchmode -nographics -logFile - -executeMethod UnityEditor.SyncVS.SyncSolution -projectPath .
+      
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install `dotnet format`
+        run: dotnet tools install -g dotnet-format
+
+      - name: Lint
+        run: dotnet format 'Assembly-CSharp.csproj' --verify-no-changes --verbosity diagnostic
 
       # Build
       - name: Build project
