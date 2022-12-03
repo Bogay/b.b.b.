@@ -12,11 +12,9 @@ jobs:
     name: Build my project ✨
     runs-on: ubuntu-latest
     steps:
-      # Checkout (without LFS)
-      - name: Checkout repository
+      - name: Checkout repository (without LFS)
         uses: actions/checkout@v3
 
-      # Git LFS
       - name: Create LFS file list
         run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
 
@@ -33,7 +31,6 @@ jobs:
           git add .
           git reset --hard
 
-      # Cache
       - uses: actions/cache@v3
         with:
           path: Library
@@ -56,7 +53,6 @@ jobs:
       - name: Lint
         run: dotnet format 'Assembly-CSharp.csproj' --verify-no-changes --verbosity diagnostic
 
-      # Build
       - name: Build project
         uses: game-ci/unity-builder@v2
         env:
@@ -66,8 +62,8 @@ jobs:
         with:
           targetPlatform: StandaloneWindows64
 
-      # Output
-      - uses: actions/upload-artifact@v3
+      - name: Save Build Output
+        uses: actions/upload-artifact@v3
         with:
           name: Build
           path: build
