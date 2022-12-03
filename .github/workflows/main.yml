@@ -46,7 +46,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           entrypoint: bash
-          args: ./scripts/before_script.sh && ./scripts/gen_proj.sh
+          args: -c "chmod +x ./scripts/*.sh && ./scripts/before_script.sh && ./scripts/gen_proj.sh"
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
